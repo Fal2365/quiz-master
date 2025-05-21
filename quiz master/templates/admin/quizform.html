@@ -1,0 +1,125 @@
+{% extends "admin/formbase.html" %}
+
+{% block content %}
+
+{% if add_quiz %}
+<div class="card shadow p-4 mx-auto w-50 w-md-75 w-sm-100">
+    <h2 class="mb-4 text-center">New Quiz</h2>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="subject" class="form-label">subject</label>
+            <select id="subject" class="form-control">
+                <option value="">-- Select Subject --</option>
+                {% for subject in subjects %}
+                <option value="{{subject.id}}">{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="chapter" class="form-label">Chapter</label>
+            <select id="chapter" name="chapter" class="form-control">
+                <option value="">-- Select Chapter --</option>
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="date_of_quiz" class="form-label">Date of Quiz</label>
+            <input type="date" class="form-control" name="date_of_quiz" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="time" class="form-label">Time(In Minutes)</label>
+            <input type="text" class="form-control" name="time" placeholder="mm:ss" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea class="form-control" name="remarks" rows="3"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/admin/quiz" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+
+{% if edit_quiz %}
+<div class="card shadow p-4 mx-auto w-50 w-md-75 w-sm-100">
+    <h2 class="mb-4 text-center">Edit Quiz</h2>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="subject" class="form-label">subject</label>
+            <select id="subject" class="form-control">
+                <option value="">-- Select Subject --</option>
+                {% for subject in subjects %}
+                {% if subject.name == quiz.subject_name%}
+                    <option value="{{subject.id}}" selected>{{subject.name}}</option>
+                {% endif %}
+                <option value="{{subject.id}}">{{subject.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="chapter" class="form-label">Chapter</label>
+            <select id="chapter" name="chapter" class="form-control">
+                <option value="">-- Select Chapter --</option>
+                <option value="{{quiz.chapter_id}}" selected>{{quiz.chapter_name}}</option>
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="date_of_quiz" class="form-label">Date of Quiz</label>
+            <input type="date" class="form-control" name="date_of_quiz" id="date_of_quiz" value="{{quiz.date_of_quiz}}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="time" class="form-label">Time(In Minutes)</label>
+            <input type="text" class="form-control" name="time" placeholder="mm:ss" value="{{quiz.time}}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea class="form-control" name="remarks" rows="3">{{ quiz.remarks }}</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/admin/quiz" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+
+{%endblock%}
+
+
+{% block scripts %}
+<script>
+    const selectedSubject = document.getElementById('subject');
+    
+    selectedSubject.onchange = function () {
+        const subjectId = selectedSubject.value;
+        const chapterSelect = document.getElementById('chapter');
+        chapterSelect.innerHTML = '<option value="">-- Select Chapter --</option>';
+
+        fetch(`/admin/get-chapters?subject_id=${subjectId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(chapter => {
+                    const option = document.createElement('option');
+                    option.value = chapter.id;
+                    option.textContent = chapter.name;
+                    chapterSelect.appendChild(option);
+                });
+            });
+    };
+</script>
+{%endblock%}

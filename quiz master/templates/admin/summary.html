@@ -1,0 +1,156 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div>
+        <form action="#" method="get">
+            <select name="subject" id="subject" class="form-control">
+                <option value="">-- Select Subject --</option>
+                {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+            <select name="chapter" id="chapter" class="form-control">
+                <option value="">-- Select Chapter --</option>
+            </select>
+
+            <button class="btn btn-primary mt-2">Quiz Scores</button>
+        </form>
+    </div>
+
+    {% if quiz_scores %}
+
+    <h3 class="text-center mb-4">Quiz Scores</h3>
+
+    <div class="container my-1 py-3 d-flex justify-content-between bg-light">
+        <h6>Subject : <span class="fw-normal">{{ quiz_scores[0].subject_name }}</span></h6>
+        <h6>Chapter : <span class="fw-normal">{{ quiz_scores[0].chapter_name }}</span></h6>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>s.no.</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time Duration</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in quiz_scores %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ score.name }}</td>
+                    <td>{{ score.quiz_date }}</td>
+                    <td>{{ score.quiz_time }}</td>
+                    <td>{{ score.total_scored }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+
+</div>
+
+
+<div class="container mt-4">
+    <div>
+        <form action="#" method="get">
+            <select name="user" class="form-control">
+                <option value="">-- Select User --</option>
+                {% for user in users %}
+                <option class="fw-normal" value="{{ user.id }}">{{ user.full_name }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-primary mt-2">Check Summary</button>
+        </form>
+    </div>
+
+    {% if user %}
+
+    <h3 class="text-center mb-4">Quiz Scores</h3>
+
+    <div class="container my-1 py-3 d-flex justify-content-between bg-light">
+        <h6>Name : <span class="fw-normal">{{ user.full_name }}</span></h6>
+        <h6>Qualification : <span class="fw-normal">{{ user.qualification }}</span></h6>
+        <h6>DOB : <span class="fw-normal">{{ user.dob }}</span></h6>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>s.no.</th>
+                    <th>Subject</th>
+                    <th>Chapter</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ score.subject }}</td>
+                    <td>{{ score.chapter }}</td>
+                    <td>{{ score.date }}</td>
+                    <td>{{ score.score }}/{{score.question_count}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container-sm mt-5">
+        <div class="row">
+
+            <div class="col-md-6 col-lg-6 d-flex flex-column align-items-center">
+                <h5 class="text-center">Subject wise no. of quizzes</h5>
+                <img class="img-fluid"
+                    src="{{ url_for('static', filename='charts/histogram/' + user.id|string + 'histogram.png') }}"
+                    alt="histogram">
+            </div>
+
+            <div class="col-md-6 col-lg-6 d-flex flex-column align-items-center">
+                <h5 class="text-center">Month wise no. of quizzes attempted</h5>
+                <img class="img-fluid"
+                    src="{{ url_for('static', filename='charts/piechart/' + user.id|string + 'piechart.png') }}"
+                    alt="piechart">
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+{%block scripts %}
+<script>
+    const selectedSubject = document.getElementById('subject');
+
+    selectedSubject.onchange = function () {
+        const subjectId = selectedSubject.value;
+        const chapterSelect = document.getElementById('chapter');
+        chapterSelect.innerHTML = '<option value="">-- Select Chapter --</option>';
+    
+
+        fetch(`/admin/get-chapters?subject_id=${subjectId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(chapter => {
+                    const option = document.createElement('option');
+                    option.value = chapter.id;
+                    option.textContent = chapter.name;
+                    chapterSelect.appendChild(option);
+                });
+            });
+    };
+
+</script>
+{%endblock%}

@@ -1,0 +1,116 @@
+{% extends "admin/formbase.html" %}
+
+{% block content %}
+
+{% if add_question %}
+
+<div class="card shadow p-4 mx-auto w-50 w-md-75 w-sm-100">
+    <h2 class="mb-4 text-center">New Question</h2>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="question_statement" class="form-label">Question Statement</label>
+            <textarea class="form-control" name="question_statement" rows="4"
+                required></textarea>
+        </div>
+
+        <h3 class="mb-2 text-center">Options</h3>
+
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option1" class="form-label me-2">Option 1 : </label>
+            <input type="text" class="form-control w-50" name="option1" required>
+        </div>
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option2" class="form-label me-2">Option 2 : </label>
+            <input type="text" class="form-control w-50" name="option2" required>
+        </div>
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option3" class="form-label me-2">Option 3 : </label>
+            <input type="text" class="form-control w-50" name="option3" required>
+        </div>
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option4" class="form-label me-2">Option 4 : </label>
+            <input type="text" class="form-control w-50" name="option4" required>
+        </div>
+
+        <div class="mb-4 d-flex align-items-center justify-content-center">
+            <label for="correct-option" class="form-label me-2">Correct Option : </label>
+            <select class="form-control w-50" name="correct-option" required>
+                <option value="">-- Select Correct Option --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/admin/quiz" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
+
+
+</div>
+    
+{% endif %}
+
+{% if edit_question %}
+
+<div class="card shadow p-4 mx-auto w-50 w-md-75 w-sm-100">
+    <h2 class="mb-4 text-center">Edit Question</h2>
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="question_statement" class="form-label">Question Statement</label>
+            <textarea class="form-control" name="question_statement" rows="4"
+                required> {{question.question_statement}}</textarea>
+        </div>
+
+        <h3 class="mb-2 text-center">Options</h3>
+
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option1" class="form-label me-2">Option 1 : </label>
+            <input type="text" class="form-control w-50" name="option1" value="{{question.option1}}"
+                required>
+        </div>
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option2" class="form-label me-2">Option 2 : </label>
+            <input type="text" class="form-control w-50" name="option2" value="{{question.option2}}"
+                required>
+        </div>
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option3" class="form-label me-2">Option 3 : </label>
+            <input type="text" class="form-control w-50" name="option3" value="{{question.option3}}"
+                required>
+        </div>
+        <div class="mb-2 d-flex align-items-center justify-content-center">
+            <label for="option4" class="form-label me-2">Option 4 : </label>
+            <input type="text" class="form-control w-50" name="option4" value="{{question.option4}}"
+                required>
+        </div>
+
+        <div class="mb-4 d-flex align-items-center justify-content-center">
+            <label for="correct-option" class="form-label me-2">Correct Option : </label>
+            <select class="form-control w-50" name="correct-option" id="correct-option" required>
+                
+                <option value="">-- Select Correct Option --</option>
+                {% for i in range(1,5) %}
+                    {% if question.correct_option == i | string %}
+                    <option value="{{i}}" selected>{{i}}</option>
+                    {% else %}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endif %}
+                    
+                {% endfor %}
+
+            </select>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/admin/quiz" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
+</div>
+
+{% endif %}
+
+
+{%endblock%}

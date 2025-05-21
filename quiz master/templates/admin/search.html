@@ -1,0 +1,56 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+
+        {% if subjects %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h5>Subjects</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for subject in subjects %}
+                        <p class="m-0 text-center"> <a class="text-decoration-none" href="/admin/dashboard?q={{subject.id}}">{{ subject.name }} </a>  </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        
+        {% if quizes %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Quizes</h5>
+                </div>
+                <div class="card-body">
+                    {% for quiz in quizes %}
+                    <p class="m-0 text-center"> <a class="text-decoration-none" href="/admin/quiz?q={{ quiz.id }}">{{ quiz.name }} </a>  </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if users %}
+        <div class="col-md-4 ">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Users</h5>
+                </div>
+                <div class="card-body">
+                    {% for user in users %}
+                    <p class="m-0 text-center"> <a class="text-decoration-none" href="/admin/summary?user={{user.id}}" >{{ user.full_name }} </a>  </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}

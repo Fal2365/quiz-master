@@ -1,0 +1,21 @@
+{% extends "user/base.html" %}
+{% block content %}
+
+
+<div class="container-sm">
+    <div class="row">
+
+        <div class="col-md-6 col-lg-6 d-flex flex-column align-items-center">
+            <h5 class="text-center">Subject wise no. of quizzes</h5>
+            <img class="img-fluid" src="{{ url_for('static', filename='charts/histogram/' + current_user.id|string + 'histogram.png') }}" alt="histogram">            
+        </div>
+
+        <div class="col-md-6 col-lg-6 d-flex flex-column align-items-center">
+            <h5 class="text-center">Month wise no. of quizzes attempted</h5>
+            <img class="img-fluid" src="{{ url_for('static', filename='charts/piechart/' + current_user.id|string + 'piechart.png') }}" alt="piechart">
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

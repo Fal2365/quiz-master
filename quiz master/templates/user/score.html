@@ -1,0 +1,33 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+
+<div class="container table-container">
+  <h3 class="text-center mb-4">Quiz Scores</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+      <thead class="table-light">
+        <tr>
+          <th>s.no.</th>
+          <th>Subject</th>
+          <th>Chapter</th>
+          <th>Date</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for score in scores %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ score.subject }}</td>
+          <td>{{ score.chapter }}</td>
+          <td>{{ score.date }}</td>
+          <td>{{ score.score }}/{{score.question_count}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

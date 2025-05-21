@@ -1,0 +1,52 @@
+{% extends "admin/formbase.html" %}
+
+{% block content %}
+
+{% if edit_chapter %}
+<div class="card shadow p-4 mx-auto w-50 w-md-75 w-sm-100">
+    <h2 class="mb-4 text-center">Edit Chapter</h2>
+    <form action="" method="POST">
+        <div class="mb-3">
+            <label for="chapter_name" class="form-label">Chapter Name</label>
+            <input type="text" class="form-control" name="chapter_name" value="{{chapter.name}}"
+                required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" value="{{chapter.description}}">
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/admin/dashboard" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
+</div>
+
+{% endif %}
+
+{% if add_chapter %}
+<div class="card shadow p-4 mx-auto w-50 w-md-75 w-sm-100">
+    <h2 class="mb-4 text-center">Add New Chapter</h2>
+    <form action="" method="POST">
+
+        <div class="mb-3">
+            <label for="chapter_name" class="form-label">Chapter Name</label>
+            <input type="text" class="form-control" name="chapter_name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description">
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/admin/dashboard" class="btn btn-secondary">Go Back</a>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}

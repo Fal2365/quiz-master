@@ -1,0 +1,32 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="container-sm w-50 mt-5 p-3 border rounded shadow-sm d-flex flex-column align-items-center">
+    <div class="row g-4 text-end  mt-3">
+        <div class="col-5"><label>ID :</label></div>
+        <div class="col-5"><input type="text" class="form-control" value="{{ quiz.id }}" readonly></div>
+
+        <div class="col-5"><label>Subject :</label></div>
+        <div class="col-5"><input type="text" class="form-control" value="{{ quiz.subject }}" readonly></div>
+
+        <div class="col-5"><label>Chapter :</label></div>
+        <div class="col-5"><input type="text" class="form-control" value="{{ quiz.chapter }}" readonly></div>
+
+        <div class="col-5"><label>Number of Questions :</label></div>
+        <div class="col-5"><input type="text" class="form-control" value="{{ quiz.question_count }}" readonly></div>
+
+        <div class="col-5"><label>Scheduled Date :</label></div>
+        <div class="col-5"><input type="text" class="form-control" value="{{ quiz.date }}" readonly></div>
+
+        <div class="col-5"><label>Duration (hh:mm) :</label></div>
+        <div class="col-5"><input type="text" class="form-control" value="{{ quiz.time }}" readonly></div>
+
+        <div class="col-5"><label>Remarks :</label></div>
+        <div class="col-5"><textarea type="text" class="form-control" readonly>{{ quiz.remarks }}</textarea></div>
+        
+    </div>
+
+    <a href="/"><button class="btn btn-lg btn-secondary mt-5">Close</button></a>
+</div>
+
+{% endblock %}
